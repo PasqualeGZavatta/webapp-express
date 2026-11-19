@@ -1,0 +1,22 @@
+import express from "express";
+
+//COSTANTI
+
+const app = express();
+//vedi se nell'env l'APP_PORT c'è e si potra collegare senno prendi la 3000
+const port = process.env.APP_PORT || 3000;
+
+//MIDDLEWARES
+
+//intercetta le richieste HTTP e converte il body che arriva in json in un oggetto JS che possiamo prendere con req.body
+app.use(express.json());
+
+//ROUTES
+app.get("/", (req, res) => {
+  res.send("Homepage");
+});
+
+//LISTNER
+app.listen(port, () => {
+  console.log("Server aperto al link http://localhost:" + port);
+});
