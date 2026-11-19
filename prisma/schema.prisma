@@ -11,3 +11,33 @@ generator client {
 datasource db {
   provider = "mysql"
 }
+
+model Character {
+  id    Int    @id @default(autoincrement())
+  name  String
+  level Int
+  hp    Int
+
+  //i punti interrogativi sono se voglio creare pg senza razza in fase di testing
+  race    Race?   @relation(fields: [raceId], references: [id])
+  raceId  Int?
+  classes Class[]
+}
+
+model Class {
+  id        Int         @id @default(autoincrement())
+  name      String      @unique
+  hitDie    Int
+  character Character[]
+}
+
+model Race {
+  id         Int         @id @default(autoincrement())
+  name       String      @unique
+  //default speed è 25 feet
+  speed      Int         @default(25)
+  size       String      @default("Medium")
+  //metto il ? perchè potrebbe diventare troppo complesso per ora e aggiungere un altro model solo per i tratti etc
+  traits     String?     @db.Text
+  characters Character[]
+}
