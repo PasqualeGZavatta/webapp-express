@@ -13,22 +13,26 @@ datasource db {
 }
 
 model Character {
-  id    Int    @id @default(autoincrement())
-  name  String
-  level Int
-  hp    Int
-
+  id        Int      @id @default(autoincrement())
+  name      String
+  level     Int
+  hp        Int
   //i punti interrogativi sono se voglio creare pg senza razza in fase di testing
-  race    Race?   @relation(fields: [raceId], references: [id])
-  raceId  Int?
-  classes Class[]
+  race      Race?    @relation(fields: [raceId], references: [id])
+  raceId    Int?
+  classes   Class[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Class {
-  id        Int         @id @default(autoincrement())
-  name      String      @unique
-  hitDie    Int
+  id     Int    @id @default(autoincrement())
+  name   String @unique
+  hitDie Int
+
   character Character[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 }
 
 model Race {
@@ -40,4 +44,6 @@ model Race {
   //metto il ? perchè potrebbe diventare troppo complesso per ora e aggiungere un altro model solo per i tratti etc
   traits     String?     @db.Text
   characters Character[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
 }
