@@ -1,5 +1,5 @@
 import express from "express";
-
+import charactersRouter from "./routes/charactersRouter.js";
 //COSTANTI
 
 const app = express();
@@ -10,6 +10,7 @@ const port = process.env.APP_PORT || 3000;
 
 //intercetta le richieste HTTP e converte il body che arriva in json in un oggetto JS che possiamo prendere con req.body
 app.use(express.json());
+app.use("/characters", charactersRouter);
 
 //ROUTES
 app.get("/", (req, res) => {
