@@ -1,10 +1,16 @@
 import express from "express";
+import prisma from "../libs/prismaClient.js";
 
 const router = express.Router();
 
 //Index
 router.get("/", (req, res) => {
-  res.send("Lista dei personaggi D&D");
+  // await characters = prisma.character.findMany({
+  //  select:{
+  //   id: true;
+  //  }
+
+  res.send("homepage");
 });
 
 //Show
