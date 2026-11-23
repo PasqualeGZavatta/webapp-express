@@ -4,13 +4,18 @@ import prisma from "../libs/prismaClient.js";
 const router = express.Router();
 
 //Index
-router.get("/", (req, res) => {
-  // await characters = prisma.character.findMany({
-  //  select:{
-  //   id: true;
-  //  }
+router.get("/", async (req, res) => {
+  const charactersList = await prisma.character.findMany({
+    select: {
+      id: true,
+      name: true,
+      race: true,
+      classes: true,
+      level: true,
+    },
+  });
 
-  res.send("homepage");
+  res.json(charactersList);
 });
 
 //Show
