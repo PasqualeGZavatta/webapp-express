@@ -19,8 +19,28 @@ router.get("/", async (req, res) => {
 });
 
 //Show
-router.get("/:id", (req, res) => {
-  res.send("Dettaglio del personaggio con id:" + req.params.id);
+router.get("/:id", async (req, res) => {
+  //qui è req.param.id perchè devo leggere il parametro id dall'url. Non prisma
+  const id = req.params.id;
+
+  //qui cerco il character unico(id)
+  const characterSelected = await prisma.character.findUnique({
+    select: {
+      id: true,
+      name: true,
+      race: true,
+      classes: true,
+      level: true,
+    },
+
+    where: {
+      id: id,
+    },
+  });
+
+  // res.send("Dettaglio del personaggio con id:" + req.params.id);
+
+  res.json(characterSelected);
 });
 
 //Store
