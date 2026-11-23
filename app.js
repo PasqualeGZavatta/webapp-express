@@ -1,5 +1,7 @@
 import express from "express";
 import charactersRouter from "./routes/charactersRouter.js";
+import errorsHandler from "./middlewares/errorsHandler.js";
+import notFound from "./middlewares/notFound.js";
 //COSTANTI
 
 const app = express();
@@ -16,6 +18,10 @@ app.use("/characters", charactersRouter);
 app.get("/", (req, res) => {
   res.send("Homepage");
 });
+
+//ERROR MIDDLEWARES
+app.use(errorsHandler);
+app.use(notFound);
 
 //LISTNER
 app.listen(port, () => {
