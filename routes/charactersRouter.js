@@ -107,9 +107,20 @@ router.patch("/:id", (req, res) => {
   res.send("Modifica del personaggio con id:" + req.params.id);
 });
 
-//Destroy
-router.delete("/:id", (req, res) => {
-  res.send("Distruzione del personaggio con id:" + req.params.id);
+//DESTROY
+router.delete("/:id", async (req, res) => {
+  const urlId = Number(req.params.id);
+
+  if (!Number.isInteger(urlId) || urlId <= 0) {
+    return sendError(res, 400, "Id non valido");
+  }
+  await prisma.character.delete({
+    where: {
+      id: urlId,
+    },
+  });
+
+  res.sendStatus(204);
 });
 
 export default router;
