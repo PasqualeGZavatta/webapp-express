@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE `character` MODIFY `name` VARCHAR(191) NOT NULL DEFAULT '',
+    MODIFY `level` INTEGER NOT NULL DEFAULT 1;

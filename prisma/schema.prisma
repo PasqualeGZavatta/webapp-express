@@ -14,8 +14,8 @@ datasource db {
 
 model Character {
   id        Int      @id @default(autoincrement())
-  name      String
-  level     Int
+  name      String   @default("")
+  level     Int      @default(1)
   hp        Int
   //i punti interrogativi sono se voglio creare pg senza razza in fase di testing
   race      Race?    @relation(fields: [raceId], references: [id])

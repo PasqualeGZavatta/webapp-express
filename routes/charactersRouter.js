@@ -62,14 +62,39 @@ router.get("/:id", async (req, res) => {
   res.status(200).json(characterSelected);
 });
 
-//Store
+//STORE
 router.post("/", async (req, res) => {
+  const { charName, charLevel, charHp } = req.body;
+
+  //EQUIVALENTE NON DESTRUTTURATO
+  // const charName = req.body.name;
+  // const charLevel = Number(req.body.level);
+  // const charHp = Number(req.body.hp);
+
+  //Validazioni:
+  //il typeof andrebbe messo per primo
+
+  if (
+    typeof charName !== "string" ||
+    !charName ||
+    charName.trim().length === 0
+  ) {
+    return sendError(res, 400, "Invalid name Format");
+  }
+
+  if (charLevel <= 0 || !Number.isInteger(charLevel)) {
+    return sendError(res, 400, "Invalid level number");
+  }
+  if (charHp <= 0 || !Number.isInteger(charHp)) {
+    return sendError(res, 400, "Invalid Hp number");
+  }
+
   const newCharacter = await prisma.character.create({
     data: {
       //qui è req.body.whatever perchè non li prendo dall'url ma da corpo della richiesta post
-      name: req.body.name,
-      level: req.body.level,
-      hp: req.body.hp,
+      name: charName.trim(),
+      level: charLevel,
+      hp: charHp,
     },
   });
 
