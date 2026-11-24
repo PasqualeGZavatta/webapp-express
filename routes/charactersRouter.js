@@ -1,7 +1,17 @@
 import express from "express";
 import prisma from "../libs/prismaClient.js";
+import notFound from "../middlewares/notFound.js";
 
 const router = express.Router();
+
+//Utilities
+
+//creaiamo una costante sendError che ha come valore il Json dell'errore passando una funzione anonima con res, status e message come parametri
+//cosi racchiudiamo i vari errori
+const sendError = (res, status, message) =>
+  res.status(status).json({
+    error: message,
+  });
 
 //Index
 router.get("/", async (req, res) => {
@@ -18,10 +28,16 @@ router.get("/", async (req, res) => {
   res.json(charactersList);
 });
 
-//Show
+//SHOW
 router.get("/:id", async (req, res) => {
   //qui è req.param.id perchè devo leggere il parametro id dall'url. Non prisma
+
   const urlId = Number(req.params.id);
+
+  //validazione id come numero intero positivo
+  if (!Number.isInteger(urlId) || urlId <= 0) {
+    return sendError(res, 400, "invalid character Id");
+  }
 
   //qui cerco il character unico(id)
   const characterSelected = await prisma.character.findUnique({
@@ -38,9 +54,12 @@ router.get("/:id", async (req, res) => {
     },
   });
 
-  // res.send("Dettaglio del personaggio con id:" + req.params.id);
+  //validazione del 404 fa vatta DOPO aver passato prisma.character.findunique() perchè dobbiamo veder se il selecterd character esiste e non è nullo. NON l'urlId
+  if (!characterSelected) {
+    return sendError(res, 404, "Character not found");
+  }
 
-  res.json(characterSelected);
+  res.status(200).json(characterSelected);
 });
 
 //Store
