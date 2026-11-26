@@ -6,7 +6,7 @@ import "dotenv/config";
 //PrismaMariaDb -> costruttore a cui passiamo l'Uròl del DB
 const adapter = new PrismaMariaDb(process.env.DATABASE_URL);
 
-//primsa -> oggetto che fa interazioni/query  sul  db
+//prisma -> oggetto che fa interazioni/query  sul  db
 //in pratica utilizza l'adapter  pper far comunicare PrismaClient con il server mariaDb tramite l'url
 const prisma = new PrismaClient({
   adapter: adapter,

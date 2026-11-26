@@ -5,12 +5,15 @@ import notFound from "./middlewares/notFound.js";
 //COSTANTI
 
 const app = express();
+
 //vedi se nell'env l'APP_PORT c'è e si potra collegare senno prendi la 3000
 const port = process.env.APP_PORT || 3000;
 
 //MIDDLEWARES
 
 //intercetta le richieste HTTP e converte il body che arriva in json in un oggetto JS che possiamo prendere con req.body
+
+//RIVEDERE QUESTO E LINEA  7
 app.use(express.json());
 app.use("/characters", charactersRouter);
 
